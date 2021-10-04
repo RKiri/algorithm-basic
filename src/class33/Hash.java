@@ -1,3 +1,4 @@
+/*
 package class33;
 
 import java.security.MessageDigest;
@@ -46,3 +47,4 @@ public class Hash {
 	}
 
 }
+*/
