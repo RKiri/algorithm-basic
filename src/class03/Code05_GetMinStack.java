@@ -41,7 +41,7 @@ public class Code05_GetMinStack {
 		}
 	}
 
-	public static class MyStack2 {
+	/*public static class MyStack2 {
 		private Stack<Integer> stackData;
 		private Stack<Integer> stackMin;
 
@@ -76,7 +76,7 @@ public class Code05_GetMinStack {
 			}
 			return this.stackMin.peek();
 		}
-	}
+	}*/
 
 	public static void main(String[] args) {
 		MyStack1 stack1 = new MyStack1();
@@ -89,7 +89,7 @@ public class Code05_GetMinStack {
 		System.out.println(stack1.pop());
 		System.out.println(stack1.getmin());
 
-		System.out.println("=============");
+		/*System.out.println("=============");
 
 		MyStack1 stack2 = new MyStack1();
 		stack2.push(3);
@@ -99,7 +99,7 @@ public class Code05_GetMinStack {
 		stack2.push(1);
 		System.out.println(stack2.getmin());
 		System.out.println(stack2.pop());
-		System.out.println(stack2.getmin());
+		System.out.println(stack2.getmin());*/
 	}
 
 }

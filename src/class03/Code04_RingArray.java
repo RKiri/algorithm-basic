@@ -6,7 +6,7 @@ public class Code04_RingArray {
 		private int[] arr;
 		private int pushi;// end
 		private int polli;// begin
-		private int size;
+		private int size;//用size来判断是否能往里添加 这样就不用根据begin和end之间的关系来考虑
 		private final int limit;
 
 		public MyQueue(int limit) {
