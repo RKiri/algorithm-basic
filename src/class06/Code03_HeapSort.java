@@ -10,19 +10,19 @@ public class Code03_HeapSort {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		// O(N*logN)
+		// O(N*logN) 一个一个往里添加
 //		for (int i = 0; i < arr.length; i++) { // O(N)
 //			heapInsert(arr, i); // O(logN)
 //		}
-		// O(N)
+		// O(N) 需要将数组先全部给好
 		for (int i = arr.length - 1; i >= 0; i--) {
 			heapify(arr, i, arr.length);
 		}
 		int heapSize = arr.length;
-		swap(arr, 0, --heapSize);
+		swap(arr, 0, --heapSize);//将头节点最大数 位置移到末尾 最大数就应该在这 堆大小减一 arr.length-1
 		// O(N*logN)
-		while (heapSize > 0) { // O(N)
-			heapify(arr, 0, heapSize); // O(logN)
+		while (heapSize > 0) { // O(N) 直到将所有的数交换完
+			heapify(arr, 0, heapSize); // O(logN) 调整回大根堆
 			swap(arr, 0, --heapSize); // O(1)
 		}
 	}
