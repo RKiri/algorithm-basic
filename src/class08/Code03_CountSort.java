@@ -9,18 +9,18 @@ public class Code03_CountSort {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		int max = Integer.MIN_VALUE;
+		int max = Integer.MIN_VALUE;//获取数组中最大值
 		for (int i = 0; i < arr.length; i++) {
 			max = Math.max(max, arr[i]);
 		}
-		int[] bucket = new int[max + 1];
+		int[] bucket = new int[max + 1];//建立固定长度数组
 		for (int i = 0; i < arr.length; i++) {
 			bucket[arr[i]]++;
 		}
 		int i = 0;
-		for (int j = 0; j < bucket.length; j++) {
-			while (bucket[j]-- > 0) {
-				arr[i++] = j;
+		for (int j = 0; j < bucket.length; j++) {//循环遍历整个数组
+			while (bucket[j]-- > 0) {//先判断数组某位是否大于零
+				arr[i++] = j;//如果大于零 将当前下标赋给arr i向后移动
 			}
 		}
 	}

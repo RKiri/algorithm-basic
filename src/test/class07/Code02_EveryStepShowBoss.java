@@ -43,9 +43,9 @@ public class Code02_EveryStepShowBoss {
     static List<List<Integer>> topK(int[] arr, boolean[] op, int k) {
         List<List<Integer>> ans = new ArrayList<>();
         WhoDaddies whoDaddies = new WhoDaddies(k);
-        for (int i = 0; i < arr.length; i++) {
-            whoDaddies.operate(arr[i], op[i], i);
-            ans.add(whoDaddies.getDaddies());
+        for (int i = 0; i < arr.length; i++) {//N
+            whoDaddies.operate(arr[i], op[i], i);//候选区log(N-K) 得奖区logK
+            ans.add(whoDaddies.getDaddies());//K
         }
         return ans;
     }
@@ -138,7 +138,7 @@ public class Code02_EveryStepShowBoss {
     }
 
 
-    // 干完所有的事，模拟，不优化
+    // 干完所有的事，模拟，不优化 排序N2
     static List<List<Integer>> compare(int[] arr, boolean[] op, int k) {//传入两个数组 和得奖区大小
         //记录id和对应实例
         HashMap<Integer, Customer> map = new HashMap<>();
