@@ -13,15 +13,20 @@ public class Code06_SuccessorNode {
 		}
 	}
 
+	//求中序遍历的后继节点
+    // 分两种情况
+    //如果他有右子树 那么是他右子树最左侧的点
 	public static Node getSuccessorNode(Node node) {
 		if (node == null) {
 			return node;
 		}
 		if (node.right != null) {
 			return getLeftMost(node.right);
-		} else { // 无右子树
+		} else { // 无右子树 如果他是他父节点的左孩子 就是这个父节点
 			Node parent = node.parent;
-			while (parent != null && parent.right == node) { // 当前节点是其父亲节点右孩子
+			while (parent != null && parent.right == node) {
+			    // 当前节点是其父亲节点右孩子
+                //且不为空 还没有到头节点 继续向上遍历
 				node = parent;
 				parent = node.parent;
 			}

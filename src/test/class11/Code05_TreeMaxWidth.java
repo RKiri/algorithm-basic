@@ -1,18 +1,17 @@
-package class11;
+package test.class11;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Code05_TreeMaxWidth {
+    static class Node {
+        int value;
+        Node left;
+        Node right;
 
-    public static class Node {
-        public int value;
-        public Node left;
-        public Node right;
-
-        public Node(int data) {
-            this.value = data;
+        public Node(int value) {
+            this.value = value;
         }
     }
 
@@ -51,18 +50,21 @@ public class Code05_TreeMaxWidth {
         return max;
     }
 
-    public static int maxWidthNoMap(Node head) {
+    static int maxWidthNoMap(Node head) {
         if (head == null) {
             return 0;
         }
         Queue<Node> queue = new LinkedList<>();
         queue.add(head);
-        Node curEnd = head; // 当前层，最右节点是谁
-        Node nextEnd = null; // 下一层，最右节点是谁
         int max = 0;
-        int curLevelNodes = 0; // 当前层的节点数
+        // 当前层，最右节点是谁
+        Node curEnd = head;//
+        // 下一层，最右节点是谁
+        Node nextEnd = null;
+        Node cur = null;
+        int curLevelNode = 0;// 当前层的节点数
         while (!queue.isEmpty()) {
-            Node cur = queue.poll();
+            cur = queue.poll();
             if (cur.left != null) {
                 queue.add(cur.left);
                 nextEnd = cur.left;//记录下当前下一层的最右节点
@@ -71,11 +73,14 @@ public class Code05_TreeMaxWidth {
                 queue.add(cur.right);
                 nextEnd = cur.right;
             }
-            curLevelNodes++;//当前层节点数++
+            curLevelNode++;//当前层节点数++
             if (cur == curEnd) {//如果到达当前层最右节点
-                max = Math.max(max, curLevelNodes);//更新下max
-                curLevelNodes = 0;//当前层节点数归零
-                curEnd = nextEnd;//将下一层最右节点给当前层
+                //更新下max
+                max = Math.max(max, curLevelNode);
+                //当前层节点数归零
+                curLevelNode = 0;
+                //将下一层最右节点给当前层
+                curEnd = nextEnd;
             }
         }
         return max;
@@ -91,7 +96,7 @@ public class Code05_TreeMaxWidth {
         if (level > maxLevel || Math.random() < 0.5) {
             return null;
         }
-        Node head = new Node((int) (Math.random() * maxValue));
+        Node head = new Node((int) (Math.random() * (maxValue + 1)));
         head.left = generate(level + 1, maxLevel, maxValue);
         head.right = generate(level + 1, maxLevel, maxValue);
         return head;
@@ -100,15 +105,15 @@ public class Code05_TreeMaxWidth {
     public static void main(String[] args) {
         int maxLevel = 10;
         int maxValue = 100;
-        int testTimes = 1000000;
-        for (int i = 0; i < testTimes; i++) {
+        int testTime = 100000;
+        System.out.println("测试开始");
+        for (int i = 0; i < testTime; i++) {
             Node head = generateRandomBST(maxLevel, maxValue);
-            if (maxWidthUseMap(head) != maxWidthNoMap(head)) {
-                System.out.println("Oops!");
+            if (maxWidthNoMap(head) != maxWidthUseMap(head)) {
+                System.out.println("错误");
+                break;
             }
         }
-        System.out.println("finish!");
-
+        System.out.println("测试结束");
     }
-
 }

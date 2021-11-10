@@ -20,6 +20,7 @@ public class Code01_LevelTraversalBT {
 			return;
 		}
 		Queue<Node> queue = new LinkedList<>();
+		//LinkedList底层双端队列 可实现逻辑上队列结构 常规用它
 		queue.add(head);
 		while (!queue.isEmpty()) {
 			Node cur = queue.poll();
