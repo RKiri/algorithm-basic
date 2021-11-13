@@ -14,16 +14,16 @@ public class Code01_IsCBT {
 		}
 	}
 
-	public static boolean isCBT1(Node head) {
+	public static boolean isCBT1(Node head) {//是否是完全二叉树
 		if (head == null) {
 			return true;
 		}
 		LinkedList<Node> queue = new LinkedList<>();
 		// 是否遇到过左右两个孩子不双全的节点
-		boolean leaf = false;
+		boolean leaf = false;//当遇到一个不双全的节点后应全是叶节点
 		Node l = null;
 		Node r = null;
-		queue.add(head);
+		queue.add(head);//按层遍历
 		while (!queue.isEmpty()) {
 			head = queue.poll();
 			l = head.left;
@@ -32,7 +32,7 @@ public class Code01_IsCBT {
 			// 如果遇到了不双全的节点之后，又发现当前节点不是叶节点
 			    (leaf && (l != null || r != null)) 
 			    || 
-			    (l == null && r != null)
+			    (l == null && r != null)//左边为空 右边不为空
 
 			) {
 				return false;

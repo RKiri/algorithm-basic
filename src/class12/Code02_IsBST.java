@@ -2,7 +2,7 @@ package class12;
 
 import java.util.ArrayList;
 
-public class Code02_IsBST {
+public class Code02_IsBST {//是否是搜索二叉树
 
 	public static class Node {
 		public int value;
