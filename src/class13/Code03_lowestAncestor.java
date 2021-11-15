@@ -71,7 +71,7 @@ public class Code03_lowestAncestor {
 		}
 		Info leftInfo = process(x.left, a, b);
 		Info rightInfo = process(x.right, a, b);
-		boolean findA = (x == a) || leftInfo.findA || rightInfo.findA;
+		boolean findA = (x == a) || leftInfo.findA || rightInfo.findA;//
 		boolean findB = (x == b) || leftInfo.findB || rightInfo.findB;
 		Node ans = null;
 		if (leftInfo.ans != null) {

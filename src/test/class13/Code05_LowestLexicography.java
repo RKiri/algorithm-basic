@@ -1,85 +1,92 @@
-package class13;
+package test.class13;
 
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.TreeSet;
 
 public class Code05_LowestLexicography {
-
-    public static String lowestString1(String[] strs) {
+    //拿第一个最小的 或者没有的话直接拿空
+    static String lowestString1(String[] strs) {
         if (strs == null || strs.length == 0) {
             return "";
         }
-        TreeSet<String> ans = process(strs);
-        return ans.size() == 0 ? "" : ans.first();//拿第一个最小的 或者没有的话直接拿空
+        TreeSet<String> ans = process(strs);//过程返回TreeSet
+        return ans.size() == 0 ? "" : ans.first();
     }
 
     // strs中所有字符串全排列，返回所有可能的结果
-    public static TreeSet<String> process(String[] strs) {//用treeset直接排好序
-        TreeSet<String> ans = new TreeSet<>();
-        if (strs.length == 0) {
+
+    static TreeSet<String> process(String[] strs) {
+        TreeSet<String> ans = new TreeSet<>();//用treeset直接排好序
+        if (strs.length == 0) {//因为TreeSet需要排序而HashSet不需要,空的无法排序
             ans.add("");//如果不给"" 会认为是空的 下方无法拼接
             return ans;
         }
         for (int i = 0; i < strs.length; i++) {
-            String first = strs[i];//拿出第一个元素后
-            String[] nexts = removeIndexString(strs, i);//更新下字符串数组
-            TreeSet<String> next = process(nexts);//递归获取剩余元素的所有可能的结果
-            for (String cur : next) {//每个都和第一个拼接到一起
-                ans.add(first + cur);
+            String first = strs[i];
+            String[] next = removeIndexString(strs, i);
+            TreeSet<String> nexts = process(next);
+            for (String str : nexts) {
+                ans.add(first + str);//将当前节点和剩余节点可能性加到TreeSet里
             }
-            //然后循环第二个元素、第三个元素等等
         }
         return ans;
     }
+
+    //拿出第一个元素后
+    //更新下字符串数组
+    //递归获取剩余元素的所有可能的结果
+    //每个都和第一个拼接到一起
+    //然后循环第二个元素、第三个元素等等
 
     // {"abc", "cks", "bct"}
     // 0 1 2
     // removeIndexString(arr , 1) -> {"abc", "bct"}
-    public static String[] removeIndexString(String[] arr, int index) {
-        int N = arr.length;
-        String[] ans = new String[N - 1];
+    static String[] removeIndexString(String[] strs, int index) {
+        int length = strs.length;
+        String[] ans = new String[length - 1];
         int ansIndex = 0;
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < length; i++) {
             if (i != index) {
-                ans[ansIndex++] = arr[i];
+                ans[ansIndex++] = strs[i];
             }
         }
         return ans;
     }
 
-    public static class MyComparator implements Comparator<String> {
+    static class MyComparator implements Comparator<String> {
+
         @Override
-        public int compare(String a, String b) {
-            return (a + b).compareTo(b + a);
+        public int compare(String o1, String o2) {//按字典顺序比较两个字符串。
+            return (o1 + o2).compareTo(o2 + o1);//用前面的减去后面的
         }
     }
 
-    public static String lowestString2(String[] strs) {
-        if (strs == null || strs.length == 0) {
+    static String lowestString2(String[] strs) {
+        if (strs == null || strs.length == 0) {//
             return "";
         }
         Arrays.sort(strs, new MyComparator());
-        String res = "";
+        String ans = "";//null会被直接拼接进去
         for (int i = 0; i < strs.length; i++) {
-            res += strs[i];
+            ans += strs[i];
         }
-        return res;
+        return ans;
     }
 
     // for test
     public static String generateRandomString(int strLen) {
-        char[] ans = new char[(int) (Math.random() * strLen) + 1];
+        char[] ans = new char[(int) (Math.random() * strLen) + 1];//大小1到strLen 字符串长度
         for (int i = 0; i < ans.length; i++) {
             int value = (int) (Math.random() * 5);
-            ans[i] = (Math.random() <= 0.5) ? (char) (65 + value) : (char) (97 + value);
+            ans[i] = (Math.random() <= 0.5) ? (char) (65 + value) : (char) (97 + value);//大小写abcde
         }
         return String.valueOf(ans);
     }
 
     // for test
     public static String[] generateRandomStringArray(int arrLen, int strLen) {
-        String[] ans = new String[(int) (Math.random() * arrLen) + 1];
+        String[] ans = new String[(int) (Math.random() * arrLen) + 1];//数组长度1到arrLen
         for (int i = 0; i < ans.length; i++) {
             ans[i] = generateRandomString(strLen);
         }
@@ -108,11 +115,14 @@ public class Code05_LowestLexicography {
                     System.out.print(str + ",");
                 }
                 System.out.println();
+                for (String str : arr2) {
+                    System.out.print(str + ",");
+                }
+                System.out.println();
                 System.out.println("Oops!");
                 break;
             }
         }
         System.out.println("finish!");
     }
-
 }
