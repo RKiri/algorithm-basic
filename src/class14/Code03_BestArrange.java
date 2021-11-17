@@ -58,17 +58,18 @@ public class Code03_BestArrange {
 
 	// 会议的开始时间和结束时间，都是数值，不会 < 0
 	public static int bestArrange2(Program[] programs) {
-		Arrays.sort(programs, new ProgramComparator());
-		int timeLine = 0;
-		int result = 0;
+		Arrays.sort(programs, new ProgramComparator());//先按结束时间从小到大排序
+		int timeLine = 0;//当前时间
+		int result = 0;//宣讲场次
 		// 依次遍历每一个会议，结束时间早的会议先遍历
-		for (int i = 0; i < programs.length; i++) {
-			if (timeLine <= programs[i].start) {
-				result++;
-				timeLine = programs[i].end;
+		for (int i = 0; i < programs.length; i++) {//依次遍历所有会议
+			if (timeLine <= programs[i].start) {//如果当前时间小于当前会议的开始时间
+				//可以占用
+				result++;//场次+1
+				timeLine = programs[i].end;//当前时间变为此次会议结束时间 循环往复把所有会议过完
 			}
 		}
-		return result;
+		return result;//返回结果
 	}
 
 	public static class ProgramComparator implements Comparator<Program> {
