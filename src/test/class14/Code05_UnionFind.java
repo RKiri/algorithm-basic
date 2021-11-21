@@ -50,8 +50,11 @@ public class Code05_UnionFind {
         //将路径全部弹出
         //全部指向顶端祖先节点 扁平化
         //然后再返回
-        Node<V> findFather(Node<V> cur) {
+        Node<V> findFather(Node<V> cur) {//两个方法的复杂度都在这个方法上
             Stack<Node<V>> path = new Stack<>();
+            //让向上找的路径变短 减少复杂度
+            //所以每次查询完一个祖先节点 将整条链上所有节点都直接指向该祖先节点
+            //这样下次再找链中节点 只需向上插叙一步
             if (cur != parents.get(cur)) {
                 path.push(cur);
                 cur = parents.get(cur);
@@ -73,7 +76,7 @@ public class Code05_UnionFind {
         //将小的指向大的
         //大小改变
         void union(V a, V b) {
-            Node<V> aHead = findFather(nodes.get(a));
+            Node<V> aHead = findFather(nodes.get(a));//除此之外时间复杂的都是O(1)的
             Node<V> bHead = findFather(nodes.get(b));
             if (aHead != bHead) {
                 int aSetSize = sizeMap.get(aHead);

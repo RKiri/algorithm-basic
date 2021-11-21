@@ -10,7 +10,8 @@ public class Code01_FriendCircles {
 		// {0} {1} {2} {N-1}
 		UnionFind unionFind = new UnionFind(N);
 		for (int i = 0; i < N; i++) {
-			for (int j = i + 1; j < N; j++) {
+			for (int j = i + 1; j < N; j++) {//只需对斜对称线上方进行判断即可
+				//因为是相互的
 				if (M[i][j] == 1) { // i和j互相认识
 					unionFind.union(i, j);
 				}
@@ -30,7 +31,7 @@ public class Code01_FriendCircles {
 		// 一共有多少个集合
 		private int sets;
 
-		public UnionFind(int N) {
+		public UnionFind(int N) {//初始化
 			parent = new int[N];
 			size = new int[N];
 			help = new int[N];
@@ -49,7 +50,7 @@ public class Code01_FriendCircles {
 				help[hi++] = i;
 				i = parent[i];
 			}
-			for (hi--; hi >= 0; hi--) {
+			for (hi--; hi >= 0; hi--) {//hi先减回到上一个添加的位置
 				parent[help[hi]] = i;
 			}
 			return i;

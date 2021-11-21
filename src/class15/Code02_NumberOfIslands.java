@@ -11,9 +11,11 @@ import java.util.Stack;
 public class Code02_NumberOfIslands {
 
 	public static int numIslands3(char[][] board) {
-		int islands = 0;
-		for (int i = 0; i < board.length; i++) {
+		int islands = 0;//定义岛的初始数量
+		for (int i = 0; i < board.length; i++) {//循环所有元素
 			for (int j = 0; j < board[0].length; j++) {
+				//当遇到'1'陆地的时候 将岛的数量+1 将与其连接的所有陆地全部感染
+				//感染的全部区域算作一个岛 继续循环遍历查看 再次遇到之前被感染的陆地时 不会记做新的岛
 				if (board[i][j] == '1') {
 					islands++;
 					infect(board, i, j);
@@ -25,9 +27,12 @@ public class Code02_NumberOfIslands {
 
 	// 从(i,j)这个位置出发，把所有练成一片的'1'字符，变成0
 	public static void infect(char[][] board, int i, int j) {
+	    //边界条件 查询当前节点的上下左右节点时 防止越界
+        //不为'1'时直接返回
 		if (i < 0 || i == board.length || j < 0 || j == board[0].length || board[i][j] != '1') {
 			return;
 		}
+		//修改 防止递归时无法结束
 		board[i][j] = 0;
 		infect(board, i - 1, j);
 		infect(board, i + 1, j);
@@ -36,33 +41,35 @@ public class Code02_NumberOfIslands {
 	}
 
 	public static int numIslands1(char[][] board) {
-		int row = board.length;
-		int col = board[0].length;
-		Dot[][] dots = new Dot[row][col];
-		List<Dot> dotList = new ArrayList<>();
-		for (int i = 0; i < row; i++) {
+		int row = board.length;//记录行数
+		int col = board[0].length;//记录列数
+		Dot[][] dots = new Dot[row][col];//建立一个和原二维数组一样大的dot数组
+		List<Dot> dotList = new ArrayList<>();//定义一个数组队列
+		for (int i = 0; i < row; i++) {//循环遍历所有元素
 			for (int j = 0; j < col; j++) {
-				if (board[i][j] == '1') {
-					dots[i][j] = new Dot();
-					dotList.add(dots[i][j]);
+				if (board[i][j] == '1') {//当遇见为'1'时
+					dots[i][j] = new Dot();//对应dot创建一个新Dot 每一个内存地址都不同
+					dotList.add(dots[i][j]);//数组队列将Dot添加进去
 				}
 			}
 		}
-		UnionFind1<Dot> uf = new UnionFind1<>(dotList);
-		for (int j = 1; j < col; j++) {
+		UnionFind1<Dot> uf = new UnionFind1<>(dotList);//将转换成dot后又添加进list 传入创建并查集
+		for (int j = 1; j < col; j++) {//三种可能 遍历一遍 减少判断
+			// 循环 固定行 第一行
 			// (0,j)  (0,0)跳过了  (0,1) (0,2) (0,3)
+			//往左边看 合并 右边如果有 下一个会向左看和他合并
 			if (board[0][j - 1] == '1' && board[0][j] == '1') {
 				uf.union(dots[0][j - 1], dots[0][j]);
 			}
 		}
-		for (int i = 1; i < row; i++) {
-			if (board[i - 1][0] == '1' && board[i][0] == '1') {
+		for (int i = 1; i < row; i++) {//固定列 第一列
+			if (board[i - 1][0] == '1' && board[i][0] == '1') {//往上面看 合并
 				uf.union(dots[i - 1][0], dots[i][0]);
 			}
 		}
-		for (int i = 1; i < row; i++) {
+		for (int i = 1; i < row; i++) {//剩余的
 			for (int j = 1; j < col; j++) {
-				if (board[i][j] == '1') {
+				if (board[i][j] == '1') {//往左边和上边看 合并
 					if (board[i][j - 1] == '1') {
 						uf.union(dots[i][j - 1], dots[i][j]);
 					}
@@ -90,6 +97,7 @@ public class Code02_NumberOfIslands {
 	}
 
 	public static class UnionFind1<V> {
+        //因为是HashMap 如果直接存入1存的是值 无法区分 所以用Dot内存地址来区分每一块陆地
 		public HashMap<V, Node<V>> nodes;
 		public HashMap<Node<V>, Node<V>> parents;
 		public HashMap<Node<V>, Integer> sizeMap;
@@ -102,7 +110,7 @@ public class Code02_NumberOfIslands {
 				Node<V> node = new Node<>(cur);
 				nodes.put(cur, node);
 				parents.put(node, node);
-				sizeMap.put(node, 1);
+				sizeMap.put(node, 1);//岛屿数量初始是陆地的数量 然后每合并依次 -1
 			}
 		}
 
@@ -139,9 +147,9 @@ public class Code02_NumberOfIslands {
 	}
 
 	public static int numIslands2(char[][] board) {
-		int row = board.length;
-		int col = board[0].length;
-		UnionFind2 uf = new UnionFind2(board);
+		int row = board.length;//记录行数
+		int col = board[0].length;//记录列数
+		UnionFind2 uf = new UnionFind2(board);//生成并查集
 		for (int j = 1; j < col; j++) {
 			if (board[0][j - 1] == '1' && board[0][j] == '1') {
 				uf.union(0, j - 1, 0, j);
@@ -297,7 +305,7 @@ public class Code02_NumberOfIslands {
 
 		row = 10000;
 		col = 10000;
-		board1 = generateRandomMatrix(row, col);
+		board1 = generateRandomMatrix(row, col);//重新生成随机矩阵
 		board3 = copy(board1);
 		System.out.println("感染方法、并查集(数组实现)的运行结果和运行时间");
 		System.out.println("随机生成的二维矩阵规模 : " + row + " * " + col);

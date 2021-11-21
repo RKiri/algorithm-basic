@@ -31,7 +31,7 @@ public class Code03_NumberOfIslandsII {
 			col = n;
 			sets = 0;
 			int len = row * col;
-			parent = new int[len];
+			parent = new int[len];//初始化只是先定义下数组的大小
 			size = new int[len];
 			help = new int[len];
 		}
@@ -53,11 +53,13 @@ public class Code03_NumberOfIslandsII {
 		}
 
 		private void union(int r1, int c1, int r2, int c2) {
+			//检查上下左右时 防止越界 越界无法合并
 			if (r1 < 0 || r1 == row || r2 < 0 || r2 == row || c1 < 0 || c1 == col || c2 < 0 || c2 == col) {
 				return;
 			}
 			int i1 = index(r1, c1);
 			int i2 = index(r2, c2);
+			//=0相当于还未初始化 说明不是1 无法合并
 			if (size[i1] == 0 || size[i2] == 0) {
 				return;
 			}
@@ -77,7 +79,7 @@ public class Code03_NumberOfIslandsII {
 
 		public int connect(int r, int c) {
 			int index = index(r, c);
-			if (size[index] == 0) {
+			if (size[index] == 0) {//之前的size为0 说明第一次空降
 				parent[index] = index;
 				size[index] = 1;
 				sets++;
@@ -110,7 +112,7 @@ public class Code03_NumberOfIslandsII {
 		public UnionFind2() {
 			parent = new HashMap<>();
 			size = new HashMap<>();
-			help = new ArrayList<>();
+			help = new ArrayList<>();//辅助队列（栈）
 			sets = 0;
 		}
 
@@ -122,12 +124,12 @@ public class Code03_NumberOfIslandsII {
 			for (String str : help) {
 				parent.put(str, cur);
 			}
-			help.clear();
+			help.clear();//将队列清除
 			return cur;
 		}
 
 		private void union(String s1, String s2) {
-			if (parent.containsKey(s1) && parent.containsKey(s2)) {
+			if (parent.containsKey(s1) && parent.containsKey(s2)) {//先判断是否有 如果没有无法合并 直接结束
 				String f1 = find(s1);
 				String f2 = find(s2);
 				if (!f1.equals(f2)) {
@@ -137,22 +139,22 @@ public class Code03_NumberOfIslandsII {
 					String small = big == f1 ? f2 : f1;
 					parent.put(small, big);
 					size.put(big, size1 + size2);
-					sets--;
+					sets--;//若合并 岛屿--
 				}
 			}
 		}
 
 		public int connect(int r, int c) {
-			String key = String.valueOf(r) + "_" + String.valueOf(c);
-			if (!parent.containsKey(key)) {
+			String key = String.valueOf(r) + "_" + String.valueOf(c);//转成字符串存储
+			if (!parent.containsKey(key)) {//首先看是否存在 若存在说明不是第一次 直接返回
 				parent.put(key, key);
 				size.put(key, 1);
-				sets++;
-				String up = String.valueOf(r - 1) + "_" + String.valueOf(c);
+				sets++;//初始化 岛屿++
+				String up = String.valueOf(r - 1) + "_" + String.valueOf(c);//能通过自己知道上下左右字符串是什么
 				String down = String.valueOf(r + 1) + "_" + String.valueOf(c);
 				String left = String.valueOf(r) + "_" + String.valueOf(c - 1);
 				String right = String.valueOf(r) + "_" + String.valueOf(c + 1);
-				union(up, key);
+				union(up, key);//进行合并
 				union(down, key);
 				union(left, key);
 				union(right, key);
